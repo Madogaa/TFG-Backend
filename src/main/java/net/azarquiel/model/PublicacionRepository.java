@@ -6,10 +6,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface PublicacionRepository extends CrudRepository<Publicacion, Integer>{
 
-    @Query("SELECT pub FROM Publicacion pub WHERE pub.idPerfil.idPerfil = :idPerfil") 
+    @Query("SELECT pub FROM Publicacion pub WHERE pub.idPerfil.idPerfil = :idPerfil")
     Iterable<Publicacion> findPublicacionByIdPerfil(@Param("idPerfil") Integer idPerfil);
-    
-    @Query("SELECT p FROM Publicacion p WHERE p.idAsignatura.idAsignatura = :idAsignatura") 
-    Iterable<Publicacion> findPublicacionByIdAsignatura(@Param("idAsignatura") Integer idAsignatura);
+
+    @Query("SELECT p FROM Publicacion p WHERE p.idAsignatura.idAsignatura = :idAsignatura and p.idPerfil.idPerfil = :idPerfil")
+    Iterable<Publicacion> findPublicacionByIdAsignatura(@Param("idAsignatura") Integer idAsignatura,@Param("idPerfil") Integer idPerfil);
 
 }

@@ -64,7 +64,7 @@ public class Controller {
      cadena +="</table>";
    	 return cadena;
     }
-    
+
     ////                 ////
     ////    USUARIO      ////
     ////                 ////
@@ -81,40 +81,40 @@ public class Controller {
    	 }
 
     }
-    
+
     // Insert un usuario
     @RequestMapping(value = "usuario", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> postUsuario(@RequestBody Usuario usuario) {
    	 try {
    		 Usuario lineaResponse = usuarioRepository.save(usuario);
-   		 
+
    		 return new ResponseEntity<>(lineaResponse, HttpStatus.CREATED);
 
    	 } catch (Exception e) {
    		 return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
    	 }
     }
-    
+
     ////                 ////
     ////  PUBLICACION    ////
     ////                 ////
-    
-    
+
+
     // Insert una publicacion
     @RequestMapping(value = "publicacion", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> postPublicacion(@RequestBody Publicacion publicacion) {
    	 try {
    		 System.out.println(publicacion);
    		 Publicacion lineaResponse = publicacionRepository.save(publicacion);
-   		 
+
    		 return new ResponseEntity<>(lineaResponse, HttpStatus.CREATED);
 
    	 } catch (Exception e) {
    		 return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
    	 }
     }
-    
-    
+
+
     // Get una linea indicando el numero de linea en la url
     @RequestMapping(value = "publicaciones/{idPerfil}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getPublicacionesByIdPerfil(@PathVariable(value = "idPerfil") Integer idPerfil) {
@@ -127,12 +127,12 @@ public class Controller {
    	 }
 
     }
-    
+
     // Get una linea indicando el numero de linea en la url
-    @RequestMapping(value = "publicaciones/perfil/{idAsignatura}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<?> getPublicacionesByIdAsignatura(@PathVariable(value = "idAsignatura") Integer idAsignatura) {
+    @RequestMapping(value = "publicaciones/perfil/{idAsignatura}/{idPerfil}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<?> getPublicacionesByIdAsignatura(@PathVariable(value = "idAsignatura") Integer idAsignatura,@PathVariable(value = "idPerfil") Integer idPerfil) {
    	 try {
-   		 Iterable<Publicacion> lineaResponse = publicacionRepository.findPublicacionByIdAsignatura(idAsignatura);
+   		 Iterable<Publicacion> lineaResponse = publicacionRepository.findPublicacionByIdAsignatura(idAsignatura,idPerfil);
    		 return new ResponseEntity<>(lineaResponse, HttpStatus.OK);
 
    	 } catch (Exception ex) {
@@ -140,7 +140,7 @@ public class Controller {
    	 }
 
     }
-    
+
     // Get una linea indicando el numero de linea en la url
     @RequestMapping(value = "publicaciones/borrar/{idPublicacion}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> delPublicacionesByIdPublicacion(@PathVariable(value = "idPublicacion") Integer idPublicacion) {
@@ -157,7 +157,7 @@ public class Controller {
     ////                 ////
     ////     PERFIL      ////
     ////                 ////
-    
+
     // Insert una publicacion
     @RequestMapping(value = "perfil", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> postPublicacion(@RequestBody Perfil perfil) {
@@ -166,26 +166,26 @@ public class Controller {
    		 perfil.setNseguidores(0);
    		 perfil.setNseguidos(0);
    		 Perfil lineaResponse = perfilRepository.save(perfil);
-   		 
+
    		 return new ResponseEntity<>(lineaResponse, HttpStatus.CREATED);
 
    	 } catch (Exception e) {
    		 return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
    	 }
     }
-   
+
     @RequestMapping(value = "perfilbyid/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getPerfilById(@PathVariable(value = "id") Integer id) {
    	 try {
    		 Usuario lineaResponse = usuarioRepository.getNickByPerfilId(id);
-   		 
+
    		 return new ResponseEntity<>(lineaResponse, HttpStatus.CREATED);
 
    	 } catch (Exception e) {
    		 return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
    	 }
     }
-    
+
     // Get una linea indicando el numero de linea en la url
     @RequestMapping(value = "perfil/{nombre}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getPerfilByName(@PathVariable(value = "nombre") String nombre) {
@@ -198,7 +198,7 @@ public class Controller {
    	 }
 
     }
-    
+
     // Get una linea indicando el numero de linea en la url
     @RequestMapping(value = "perfillike/{nombre}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getPerfilLike(@PathVariable(value = "nombre") String nombre) {
@@ -211,8 +211,8 @@ public class Controller {
    	 }
 
     }
-    
-    
+
+
     @RequestMapping(value = "perfilupdate/{id}", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> updatePerfil(@PathVariable(value = "id") Integer id, @RequestBody Perfil perfil) {
    	 try {
@@ -224,7 +224,7 @@ public class Controller {
         	 perfilC.setImg(perfil.getImg());
         	 perfilC.setImgBanner(perfil.getImgBanner());
         	 lineaResponse = perfilRepository.save(perfilC);
-        	 
+
          }
    		 return new ResponseEntity<>(lineaResponse, HttpStatus.OK);
 
@@ -233,13 +233,13 @@ public class Controller {
    	 }
 
     }
-    
+
     @RequestMapping(value = "/perfil/{perfilId}/seguidos", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> seguidosPerfil(@PathVariable Integer perfilId) {
    	 try {
 
          Iterable<Perfil> response = relacionRepository.buscaSeguidos(perfilId);
-             
+
    		 return new ResponseEntity<>(response, HttpStatus.OK);
 
    	 } catch (Exception ex) {
@@ -247,13 +247,13 @@ public class Controller {
    	 }
 
     }
-    
+
     @RequestMapping(value = "/perfil/{perfilId}/seguidores", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> seguidoresPerfil(@PathVariable Integer perfilId) {
    	 try {
 
          Iterable<Perfil> response = relacionRepository.buscaSeguidores(perfilId);
-             
+
    		 return new ResponseEntity<>(response, HttpStatus.OK);
 
    	 } catch (Exception ex) {
@@ -261,13 +261,13 @@ public class Controller {
    	 }
 
     }
-    
+
     @RequestMapping(value = "/perfil/{seguidorId}/sigue/{seguidoId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> siguenAPerfil(@PathVariable Integer seguidorId,@PathVariable Integer seguidoId) {
    	 try {
 
          Iterable<Perfil> response = relacionRepository.buscaSeguidor(seguidorId,seguidoId);
-             
+
    		 return new ResponseEntity<>(response, HttpStatus.OK);
 
    	 } catch (Exception ex) {
@@ -275,13 +275,13 @@ public class Controller {
    	 }
 
     }
-    
+
     @RequestMapping(value = "/perfil/{perfilId}/seguir/{seguidoId}", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> seguirPerfil(@PathVariable Integer perfilId, @PathVariable Integer seguidoId) {
    	 try {
    		System.out.println(perfilId + "/"+ seguidoId);
          Optional<Perfil> perfilOpt = perfilRepository.findById(perfilId);
-         Optional<Perfil> seguidoOpt = perfilRepository.findById(seguidoId); 
+         Optional<Perfil> seguidoOpt = perfilRepository.findById(seguidoId);
          if (perfilOpt.isPresent() && seguidoOpt.isPresent()) {
              Perfil perfil = perfilOpt.get();
              Perfil seguido = seguidoOpt.get();
@@ -295,7 +295,7 @@ public class Controller {
    	 }
 
     }
-    
+
     @RequestMapping(value = "/borrar/seguidos/{idPerfil}/{idSeguido}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> delPerfilSiguePerfilSeguidos(@PathVariable(value = "idPerfil") Integer idPerfil,@PathVariable(value = "idSeguido") Integer idSeguido) {
    	 try {
@@ -308,7 +308,7 @@ public class Controller {
    	 }
 
     }
-    
+
     @RequestMapping(value = "/borrar/seguidores/{idPerfil}/{idSeguido}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> delPerfilSiguePerfilSeguidores(@PathVariable(value = "idPerfil") Integer idPerfil,@PathVariable(value = "idSeguido") Integer idSeguido) {
    	 try {
@@ -321,8 +321,8 @@ public class Controller {
    	 }
 
     }
-    
-    
+
+
     // Get una linea indicando el numero de linea en la url
     @RequestMapping(value = "asignaturas/{idPerfil}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getAsignaturasByName(@PathVariable(value = "idPerfil") Integer idPerfil) {
@@ -334,7 +334,7 @@ public class Controller {
    		 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
    	 }
     }
-    
+
     @RequestMapping(value = "grados", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getPerfiles() {
    	 try {
@@ -346,34 +346,34 @@ public class Controller {
    	 }
 
     }
-    
+
     @RequestMapping(value = "archivos", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getFile() {
    	 try {
 
    		 Iterable<Archivo> lineaResponse = fileRepository.findAll();
-   		 
+
    		 return new ResponseEntity<>(lineaResponse, HttpStatus.CREATED);
 
    	 } catch (Exception e) {
    		 return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
    	 }
     }
-    
+
     // Insert una publicacion
     @RequestMapping(value = "archivo", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> insertarFile(@RequestBody Archivo file) {
    	 try {
    		 System.out.println(file);
    		 Archivo lineaResponse = fileRepository.save(file);
-   		 
+
    		 return new ResponseEntity<>(lineaResponse, HttpStatus.CREATED);
 
    	 } catch (Exception e) {
    		 return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
    	 }
     }
-    
+
     @RequestMapping(value = "archivo/borrar/{idPublicacion}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> delArchivosByIdPublicacion(@PathVariable(value = "idPublicacion") Integer idPublicacion) {
    	 try {
@@ -387,6 +387,6 @@ public class Controller {
    	 }
 
     }
-    
-    
+
+
 }
