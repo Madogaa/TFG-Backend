@@ -56,13 +56,28 @@ public class Controller {
     // Welcome de nuestra api por ejemplo podríamos poner aquí
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = "text/html")
     public String get() {
-   	 String cadena = "<h1 style='text-align: center; background-color: #0000c0; color: #C0C0FF;'>DotShare Api with SpringBoot - Mario Dominguez</h1>";
-   	 cadena +="<table border='1' style='width: 40%;margin: 0 auto; background-color: #C0C0FF; color:#0000c0;'>";
-   	 cadena +="<tr style='background-color: #0000c0; color: #C0C0FF;'><th>Method</th><th>Url</th><th>Description</th></tr>";
-   	 cadena +="<tr><td>GET </td><td>/usuarios</td><td>Lista de usuarios</td></tr>";
-   	 cadena +="<tr><td>POST </td><td>/usuario</td><td>Usuario</td></tr>";
-     cadena +="</table>";
-   	 return cadena;
+		String cadena = "<h1 style='text-align: center; background-color: #0000c0; color: #C0C0FF;'>DotShare Api with SpringBoot - Mario Dominguez</h1>";
+		cadena += "<table border='1' style='width: 40%;margin: 0 auto; background-color: #C0C0FF; color:#0000c0;'>";
+		cadena += "<tr style='background-color: #0000c0; color: #C0C0FF;'><th>Method</th><th>Url</th><th>Description</th></tr>";
+		cadena += "<tr><td>GET </td><td>/usuarios</td><td>Lista de usuarios</td></tr>";
+		cadena += "<tr><td>POST </td><td>/usuario</td><td>Usuario</td></tr>";
+		cadena += "<tr><td>POST </td><td>/publicacion</td><td>Insertar una publicación</td></tr>";
+		cadena += "<tr><td>GET </td><td>/publicaciones/{idPerfil}</td><td>Obtener publicaciones por ID de perfil</td></tr>";
+		cadena += "<tr><td>GET </td><td>/publicaciones/perfil/{idAsignatura}/{idPerfil}</td><td>Obtener publicaciones por ID de asignatura y perfil</td></tr>";
+		cadena += "<tr><td>GET </td><td>/publicaciones/borrar/{idPublicacion}</td><td>Eliminar publicación por ID de publicación</td></tr>";
+		cadena += "<tr><td>POST </td><td>/perfil</td><td>Insertar un perfil</td></tr>";
+		cadena += "<tr><td>GET </td><td>/perfilbyid/{id}</td><td>Obtener perfil por ID</td></tr>";
+		cadena += "<tr><td>GET </td><td>/perfil/{nombre}</td><td>Obtener perfil por nombre</td></tr>";
+		cadena += "<tr><td>GET </td><td>/perfillike/{nombre}</td><td>Obtener perfiles que coinciden con el nombre</td></tr>";
+		cadena += "<tr><td>POST </td><td>/perfilupdate/{id}</td><td>Actualizar perfil por ID</td></tr>";
+		cadena += "<tr><td>GET </td><td>/perfil/{perfilId}/seguidos</td><td>Obtener perfiles seguidos por ID de perfil</td></tr>";
+		cadena += "<tr><td>GET </td><td>/perfil/{perfilId}/seguidores</td><td>Obtener seguidores por ID de perfil</td></tr>";
+		cadena += "<tr><td>GET </td><td>/perfil/{seguidorId}/sigue/{seguidoId}</td><td>Verificar si un perfil sigue a otro</td></tr>";
+		cadena += "<tr><td>POST </td><td>/perfil/{perfilId}/seguir/{seguidoId}</td><td>Seguir un perfil</td></tr>";
+		cadena += "<tr><td>GET </td><td>/borrar/seguidos/{idPerfil}/{idSeguido}</td><td>Dejar de seguir un perfil (seguidos)</td></tr>";
+		cadena += "<tr><td>GET </td><td>/borrar/seguidores/{idPerfil}/{idSeguido}</td><td>Dejar de seguir un perfil (seguidores)</td></tr>";
+		cadena += "</table>";
+		return cadena;
     }
 
     ////                 ////
